@@ -1,0 +1,219 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(EcoActionApp());
+}
+
+class EcoActionApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Eco Action',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: MainMenuScreen(),
+    );
+  }
+}
+
+class MainMenuScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Eco Action'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome to Eco Action!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal[700],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VolunteerTasksScreen()),
+                );
+              },
+              child: Text('Volunteer Tasks'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportHazardScreen()),
+                );
+              },
+              child: Text('Report Hazard'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CommunityStatsScreen()),
+                );
+              },
+              child: Text('Community Stats'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class VolunteerTasksScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Volunteer Tasks'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Available Volunteer Opportunities',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text('Tree Planting Event'),
+              subtitle: Text('Date: 12th Dec 2024, Location: City Park'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Signed up for Tree Planting!')),
+                  );
+                },
+                child: Text('Join'),
+              ),
+            ),
+            ListTile(
+              title: Text('River Cleanup'),
+              subtitle: Text('Date: 18th Dec 2024, Location: Blue River'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Signed up for River Cleanup!')),
+                  );
+                },
+                child: Text('Join'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReportHazardScreen extends StatelessWidget {
+  final TextEditingController _hazardController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Report Hazard'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Describe the Environmental Hazard:',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _hazardController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'Enter details...',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                final hazard = _hazardController.text;
+                if (hazard.isNotEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Hazard Reported: $hazard')),
+                  );
+                  _hazardController.clear();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please describe the hazard.')),
+                  );
+                }
+              },
+              child: Text('Submit Report'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CommunityStatsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Community Stats'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text(
+              'Community Achievements',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              title: Text('Trees Planted'),
+              trailing: Text(
+                '1,245',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ListTile(
+              title: Text('Hazards Reported'),
+              trailing: Text(
+                '312',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ListTile(
+              title: Text('Cleanup Events'),
+              trailing: Text(
+                '78',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
